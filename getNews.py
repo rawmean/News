@@ -43,8 +43,8 @@ Your response must be in the form of json. do not respond with anything but json
 {article}
 
 
-YOU MUST USE THIS JSON TEMPLATE:
-###
+### YOU MUST USE THIS JSON TEMPLATE:
+
 {{
     translations:
     [
@@ -57,7 +57,8 @@ YOU MUST USE THIS JSON TEMPLATE:
         ...
     ]
 }}
-###
+
+'''
 
 messages = [
     {"role": "system", "content": system},

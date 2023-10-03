@@ -82,7 +82,7 @@ import os
 
 # os.chdir(data_path)
 print('uploading to github')
-call(['pwd'],shell=True)
+# call(['pwd'],shell=True)
 call(['git', 'add', '*.json'],shell=True)
 call(['git', 'commit', '-am', 'update' + str(time.time())],shell=True)
 call(['git', 'push', '-f', 'origin', 'master'],shell=True)

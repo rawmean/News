@@ -1,6 +1,7 @@
 import openai
 import dotenv
 from os import environ
+import time
 
 env_file = '../.env'
 dotenv.load_dotenv(env_file, override=True)
@@ -36,93 +37,103 @@ def get_response_chat(messages) -> str:
     return response["choices"][0]["message"]["content"] 
 
 
-system_pre = "you are a helpful assistant"
-question_pre  = f'''
-First separate the following english text infor paragraphs based on the topic. Also, simplify each paragraph so that it is understandable by a 10 year old. The output must be in pure json and nothing else. 
+def refresh_news():
+    system_pre = "you are a helpful assistant"
+    question_pre  = f'''
+    First separate the following english text infor paragraphs based on the topic. Also, simplify each paragraph so that it is understandable by a 10 year old. 
+    The output must be in pure json and nothing else. 
+    Do not include and paragraph that is about daily quiz.
+    Do not include any paragraph that is not news.
 
-### ENGLISH TEXT:
-{article}
-
-
-### YOU MUST USE THIS JSON TEMPLATE:
-
-#####
-{{
-    paragraphs:
-        [
-            PARAGRPAH_BASED_ON_TOPIC,
-            ...
-        ]
-}}
-#####
-'''
-
-messages_pre = [
-    {"role": "system", "content": system_pre},
-    {"role": "user", "content": question_pre},
-]
-
-print('Starting the pre-query')
-paragraphs = get_response_chat(messages=messages_pre)
-
-print(f'paragraphs: {paragraphs}')
+    ### ENGLISH TEXT:
+    {article}
 
 
-system = '''
-You are an expert translator. You translate English text to very simple Spanish text that can be understood by a 10 year old. Do not use difficult spanish words.
-'''
+    ### YOU MUST USE THIS JSON TEMPLATE:
 
-question = f'''
-Then translate each paragraph in the input Paragraphs given below to simple Spanish that can be understood by a 10 yeard old.
-Your response must be in the form of json. do not respond with anything but json format. Also, create a very short title for each of the news paragraphs.
+    #####
+    {{
+        paragraphs:
+            [
+                PARAGRPAH_BASED_ON_TOPIC,
+                ...
+            ]
+    }}
+    #####
+    '''
 
-### Input Paragraphs:
-{paragraphs}
+    messages_pre = [
+        {"role": "system", "content": system_pre},
+        {"role": "user", "content": question_pre},
+    ]
 
+    print('Starting the pre-query')
+    paragraphs = get_response_chat(messages=messages_pre)
 
-### YOU MUST USE THIS JSON TEMPLATE:
-
-#####
-{{
-    translations:
-        [
-            {{
-                english_version: PARAGRPAH_IN_ENGLISH,
-                english_title: TITLE_IN_ENGLISH,
-                translated_version: TRANSLATED_PARAGRAPH,
-                translated_title: TITLE_IN_ENGLISH
-            }},
-            ...
-        ]
-}}
-#####
-
-'''
-
-messages = [
-    {"role": "system", "content": system},
-    {"role": "user", "content": question},
-]
-
-print('Starting the query')
-translations = get_response_chat(messages=messages)
-
-print(translations)
-print(f"translation length = {len(translations)}")
-
-import json
-file_path = "./news.json"
-with open(file_path, "w") as json_file:
-    json.dump(translations.replace('\n', ''), json_file)
+    print(f'paragraphs: {paragraphs}')
 
 
-from subprocess import call
-import time
-import os
+    system = '''
+    You are an expert translator. You translate English text to very simple Spanish text that can be understood by a 10 year old. Do not use difficult spanish words.
+    '''
 
-# os.chdir(data_path)
-print('uploading to github')
-# call(['pwd'],shell=True)
-call(['git', 'add', '*.json'],shell=True)
-call(['git', 'commit', '-am', 'update' + str(time.time())],shell=True)
-call(['git', 'push', '-f', 'origin', 'master'],shell=True)
+    question = f'''
+    Then translate each paragraph in the input Paragraphs given below to simple Spanish that can be understood by a 10 yeard old.
+    Your response must be in the form of json. do not respond with anything but json format. Also, create a very short title for each of the news paragraphs.
+
+    ### Input Paragraphs:
+    {paragraphs}
+
+
+    ### YOU MUST USE THIS JSON TEMPLATE:
+
+    #####
+    {{
+        translations:
+            [
+                {{
+                    english_version: PARAGRPAH_IN_ENGLISH,
+                    english_title: TITLE_IN_ENGLISH,
+                    translated_version: TRANSLATED_PARAGRAPH,
+                    translated_title: TITLE_IN_ENGLISH
+                }},
+                ...
+            ]
+    }}
+    #####
+
+    '''
+
+    messages = [
+        {"role": "system", "content": system},
+        {"role": "user", "content": question},
+    ]
+
+    print('Starting the query')
+    translations = get_response_chat(messages=messages)
+
+    print(translations)
+    print(f"translation length = {len(translations)}")
+
+    import json
+    file_path = "./news.json"
+    with open(file_path, "w") as json_file:
+        json.dump(translations.replace('\n', ''), json_file)
+
+
+    from subprocess import call
+    import time
+    import os
+
+    # os.chdir(data_path)
+    print('uploading to github')
+    # call(['pwd'],shell=True)
+    call(['git', 'add', '*.json'],shell=True)
+    call(['git', 'commit', '-am', 'update' + str(time.time())],shell=True)
+    call(['git', 'push', '-f', 'origin', 'master'],shell=True)
+
+
+if __name__ == '__main__':
+    while True:
+        refresh_news()
+        time.sleep(12 * 3600)

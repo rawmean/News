@@ -48,18 +48,20 @@ Your response must be in the form of json. do not respond with anything but json
 
 ### YOU MUST USE THIS JSON TEMPLATE:
 
+#####
 {{
     translations:
-    [
-        {{
-        english_version: PARAGRPAH_IN_ENGLISH,
-        english_title: TITLE_IN_ENGLISH,
-        translated_version: TRANSLATED_PARAGRAPH,
-        translated_title: TITLE_IN_ENGLISH
-        }},
-        ...
-    ]
+        [
+            {{
+                english_version: PARAGRPAH_IN_ENGLISH,
+                english_title: TITLE_IN_ENGLISH,
+                translated_version: TRANSLATED_PARAGRAPH,
+                translated_title: TITLE_IN_ENGLISH
+            }},
+            ...
+        ]
 }}
+#####
 
 '''
 

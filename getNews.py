@@ -9,6 +9,7 @@ ec_uname = environ.get("UNAME")
 ec_pass = environ.get("EC_PASS")
 ec_url = environ.get("EC_URL")
 
+print(f'url = {ec_url}')
 from bs4 import BeautifulSoup as bs 
 import requests 
  
@@ -32,9 +33,11 @@ def get_response_chat(messages) -> str:
     )
     return response["choices"][0]["message"]["content"] 
 
+
 system = '''
 You are an expert translator. You translate English text to very simple Spanish text that can be understood by a 10 year old. Do not use difficult spanish words.
 '''
+
 question = f'''
 First separate the English text below into paragraphs. Each paragraph must be related to a particular topic. Then translate each paragraph to simple Spanish that can be understood by a 10 yeard old.
 Your response must be in the form of json. do not respond with anything but json format. Also, create a very short title for each of the news paragraphs.

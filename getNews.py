@@ -26,6 +26,8 @@ soup = BeautifulSoup(response.content, "html.parser")
 body = soup.body.text
 article = (body.split(sep='stories that matter')[1]).split(sep='Word of the day')[0]
 
+print(f'========= article: {article}')
+
 def get_response_chat(messages) -> str:
     response = openai.ChatCompletion.create(
         # model=model, temperature=0.0, messages=messages
@@ -34,16 +36,48 @@ def get_response_chat(messages) -> str:
     return response["choices"][0]["message"]["content"] 
 
 
+system_pre = "you are a helpful assistant"
+question_pre  = f'''
+First separate the following english text infor paragraphs based on the topic. Also, simplify each paragraph so that it is understandable by a 10 year old. The output must be in pure json and nothing else. 
+
+### ENGLISH TEXT:
+{article}
+
+
+### YOU MUST USE THIS JSON TEMPLATE:
+
+#####
+{{
+    paragraphs:
+        [
+            PARAGRPAH_BASED_ON_TOPIC,
+            ...
+        ]
+}}
+#####
+'''
+
+messages_pre = [
+    {"role": "system", "content": system_pre},
+    {"role": "user", "content": question_pre},
+]
+
+print('Starting the pre-query')
+paragraphs = get_response_chat(messages=messages_pre)
+
+print(f'paragraphs: {paragraphs}')
+
+
 system = '''
 You are an expert translator. You translate English text to very simple Spanish text that can be understood by a 10 year old. Do not use difficult spanish words.
 '''
 
 question = f'''
-First separate the English text below into paragraphs. Each paragraph must be related to a particular topic. Then translate each paragraph to simple Spanish that can be understood by a 10 yeard old.
+Then translate each paragraph in the input Paragraphs given below to simple Spanish that can be understood by a 10 yeard old.
 Your response must be in the form of json. do not respond with anything but json format. Also, create a very short title for each of the news paragraphs.
 
-### ENGLISH TEXT:
-{article}
+### Input Paragraphs:
+{paragraphs}
 
 
 ### YOU MUST USE THIS JSON TEMPLATE:
@@ -70,7 +104,11 @@ messages = [
     {"role": "user", "content": question},
 ]
 
+print('Starting the query')
 translations = get_response_chat(messages=messages)
+
+print(translations)
+print(f"translation length = {len(translations)}")
 
 import json
 file_path = "./news.json"

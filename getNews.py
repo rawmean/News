@@ -82,6 +82,7 @@ def refresh_news():
     Then translate each paragraph in the input Paragraphs given below to simple Spanish that can be understood by a 10 yeard old.
     Your response must be in the form of json. do not respond with anything but json format. Also, create a very short title for each of the news paragraphs.
     Replace all instances of character " in the values in the json response with character `
+    Do not use the character " anywhere in the json response values.
 
     ### Input Paragraphs:
     {paragraphs}

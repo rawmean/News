@@ -112,7 +112,7 @@ def refresh_news():
         {"role": "user", "content": question},
     ]
 
-    print('Starting the query')
+    print('Starting the query ')
     translations = get_response_chat(messages=messages)
 
     print(translations)

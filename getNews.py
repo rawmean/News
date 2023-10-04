@@ -44,7 +44,7 @@ def refresh_news():
     The output must be in pure json and nothing else. 
     Do not include and paragraph that is about daily quiz.
     Do not include any paragraph that is not news.
-    Limit hte number of paragraphs to 7.
+    Limit hte number of paragraphs to 5.
 
     ### ENGLISH TEXT:
     {article}

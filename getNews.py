@@ -18,16 +18,6 @@ payload = {
 	"uname": ec_uname, 
 	"pass": ec_pass 
 } 
-s = requests.session() 
-response = s.post(ec_url, data=payload) 
- 
-from bs4 import BeautifulSoup 
-soup = BeautifulSoup(response.content, "html.parser") 
-
-body = soup.body.text
-article = (body.split(sep='stories that matter')[1]).split(sep='Word of the day')[0]
-
-print(f'========= article: {article}')
 
 def get_response_chat(messages) -> str:
     response = openai.ChatCompletion.create(
@@ -38,6 +28,17 @@ def get_response_chat(messages) -> str:
 
 
 def refresh_news():
+    s = requests.session() 
+    response = s.post(ec_url, data=payload) 
+     
+    from bs4 import BeautifulSoup 
+    soup = BeautifulSoup(response.content, "html.parser") 
+
+    body = soup.body.text
+    article = (body.split(sep='stories that matter')[1]).split(sep='Word of the day')[0]
+
+    print(f'========= article: {article}')
+
     system_pre = "you are a helpful assistant"
     question_pre  = f'''
     First separate the following english text infor paragraphs based on the topic. Also, simplify each paragraph so that it is understandable by a 10 year old. 

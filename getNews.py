@@ -37,6 +37,9 @@ def refresh_news():
     body = soup.body.text
     article = (body.split(sep='stories that matter')[1]).split(sep='Word of the day')[0]
 
+    article = article.replace('“', '`')
+    article = article.replace('”', '`')
+
     print(f'========= article: {article}')
 
     system_pre = "you are a helpful assistant"

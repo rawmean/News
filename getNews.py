@@ -41,7 +41,8 @@ def refresh_news():
 
     system_pre = "you are a helpful assistant"
     question_pre  = f'''
-    First separate the following english text infor paragraphs based on the topic. Also, simplify each paragraph so that it is understandable by a 10 year old. 
+    First separate the following english text into paragraphs based on the topic. 
+    Summarize each paragraph into at most 6 sentences.
     The output must be in pure json and nothing else. 
     Do not include and paragraph that is about daily quiz.
     Do not include any paragraph that is not news.

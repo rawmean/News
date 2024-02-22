@@ -1,11 +1,13 @@
-import openai
 import dotenv
 from os import environ
 import time
+from openai import OpenAI
 
 env_file = '../.env'
 dotenv.load_dotenv(env_file, override=True)
-openai.api_key = environ.get('OPENAI_API_KEY')
+# openai.api_key = environ.get('OPENAI_API_KEY')
+client = OpenAI(api_key = environ.get('OPENAI_API_KEY'))
+
 ec_uname = environ.get("UNAME")
 ec_pass = environ.get("EC_PASS")
 ec_url = environ.get("EC_URL")
@@ -20,12 +22,12 @@ payload = {
 } 
 
 def get_response_chat(messages) -> str:
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         # model=model, temperature=0.0, messages=messages
         model="gpt-3.5-turbo", temperature=0.01, messages=messages
     )
-    return response["choices"][0]["message"]["content"] 
-
+    # return response["choices"][0]["message"]["content"] 
+    return response.choices[0].message.content
 
 def refresh_news():
     s = requests.session() 
@@ -136,9 +138,9 @@ def refresh_news():
     # os.chdir(data_path)
     print('uploading to github')
     # call(['pwd'],shell=True)
-    call(['git', 'add', '*.json'],shell=True)
-    call(['git', 'commit', '-am', 'update' + str(time.time())],shell=True)
-    call(['git', 'push', '-f', 'origin', 'master'],shell=True)
+    call(['git add *.json'],shell=True)
+    call(['git commit -am update' + str(time.time())],shell=True)
+    call(['git push -f origin master'],shell=True)
 
 
 if __name__ == '__main__':

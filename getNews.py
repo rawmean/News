@@ -41,6 +41,8 @@ def refresh_news():
 
     article = article.replace('“', '`')
     article = article.replace('”', '`')
+    article = article.replace('```json', '')
+    article = article.replace('```', '')
 
     print(f'========= article: {article}')
 

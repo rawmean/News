@@ -41,8 +41,6 @@ def refresh_news():
 
     article = article.replace('“', '`')
     article = article.replace('”', '`')
-    article = article.replace('```json', '')
-    article = article.replace('```', '')
 
     print(f'========= article: {article}')
 
@@ -79,6 +77,9 @@ def refresh_news():
 
     print('Starting the pre-query')
     paragraphs = get_response_chat(messages=messages_pre)
+
+    paragraphs = paragraphs.replace('```json', '')
+    paragraphs = paragraphs.replace('```', '')
 
     print(f'paragraphs: {paragraphs}')
 
@@ -123,6 +124,8 @@ def refresh_news():
 
     print('Starting the query ')
     translations = get_response_chat(messages=messages)
+    translations = translations.replace('```json', '')
+    translations = translations.replace('```', '')
 
     print(translations)
     print(f"translation length = {len(translations)}")

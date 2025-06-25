@@ -90,6 +90,8 @@ def refresh_news():
     Replace all instances of character """ in the values in the json response with character "`""
     Do not use the character """ anywhere in the json response values.
 
+    Do not output ```json. Just give pure json with nothing else 
+
     ### Input Paragraphs:
     {paragraphs}
 

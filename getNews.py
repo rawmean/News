@@ -100,13 +100,13 @@ def refresh_news():
 
     #####
     {{
-        translations:
+        "translations":
             [
                 {{
-                    english_version: PARAGRPAH_IN_ENGLISH,
-                    english_title: TITLE_IN_ENGLISH,
-                    translated_version: TRANSLATED_PARAGRAPH, // do not include any " character here
-                    translated_title: TITLE_IN_ENGLISH
+                    "english_version": PARAGRPAH_IN_ENGLISH,
+                    "english_title": TITLE_IN_ENGLISH,
+                    "translated_version": TRANSLATED_PARAGRAPH, // do not include any " character here
+                    "translated_title": TITLE_IN_ENGLISH
                 }},
                 ...
             ]

@@ -36,7 +36,7 @@ def refresh_news():
 
     body = soup.body.text
     print(f"raw body = {body}")
-    article = (body.split(sep='stories that matter')[1]) #.split(sep='Word of the day')[0]
+    article = (body.split(sep='stories that matter')[1]).split(sep='Word of the day')[0]
 
     article = article.replace('“', '`')
     article = article.replace('”', '`')

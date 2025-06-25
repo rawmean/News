@@ -35,6 +35,7 @@ def refresh_news():
     soup = BeautifulSoup(response.content, "html.parser") 
 
     body = soup.body.text
+    print(f"raw body = {body}")
     article = (body.split(sep='stories that matter')[1]).split(sep='Word of the day')[0]
 
     article = article.replace('“', '`')

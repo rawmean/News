@@ -223,6 +223,6 @@ def refresh_news():
 
 if __name__ == '__main__':
     refresh_news()
-    # while True:
-    #     refresh_news()
-    #     time.sleep(8 * 3600)
+    while True:
+        refresh_news()
+        time.sleep(8 * 3600)
